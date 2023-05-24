@@ -27,3 +27,4 @@ Homestead.json
 docker-compose.override.yml
 
 /z_devfiles
+composer.lock

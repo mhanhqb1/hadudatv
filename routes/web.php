@@ -45,6 +45,8 @@ Route::group(['middleware'=>'admin'], function()
     Route::delete('/celebs/{celeb}', [CelebController::class, 'destroy'])->name('celebs.destroy');
 
     /** Movies */
+    Route::get('/movies/imdbCreate', [MovieController::class, 'imdbCreate'])->name('movies.imdbCreate');
+    Route::get('/movies/imdbStore/{imdbId}', [MovieController::class, 'imdbStore'])->name('movies.imdbStore');
     Route::get('/movies/create', [MovieController::class, 'create'])->name('movies.create');
     Route::post('/movies', [MovieController::class, 'store'])->name('movies.store');
     Route::get('/movies/{movie}/edit', [MovieController::class, 'edit'])->name('movies.edit');

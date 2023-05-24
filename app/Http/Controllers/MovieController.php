@@ -14,8 +14,8 @@ class MovieController extends Controller
         $movies = Movie::orderBy('id', 'DESC')
             ->paginate(20);
 
-        foreach($movies as $movie) {
-            $movie->average_rating = round($movie->reviews()->average('rating'),1);
+        foreach ($movies as $movie) {
+            $movie->average_rating = round($movie->reviews()->average('rating'), 1);
         }
 
         return view('movies.index', [
@@ -32,6 +32,77 @@ class MovieController extends Controller
             'genres' => $genres,
             'celebs' => $celebs
         ]);
+    }
+
+    public function imdbCreate()
+    {
+        $data = [];
+        if (!empty($_GET['s'])) {
+            $omdbApiKey = env('OMDB_API_KEY');
+            $url = "https://www.omdbapi.com/?s={$_GET['s']}&apikey=$omdbApiKey";
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'GET',
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            $result = json_decode($response, true);
+            $data = !empty($result['Search']) ? $result['Search'] : [];
+        }
+        return view('movies.imdb_create', [
+            'data' => $data
+        ]);
+    }
+    public function imdbStore($imdbId)
+    {
+        $data = [];
+        $omdbApiKey = env('OMDB_API_KEY');
+        $url = "https://www.omdbapi.com/?i=$imdbId&plot=full&apikey=$omdbApiKey";
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response, true);
+        if (!empty($data)) {
+            $movie = Movie::updateOrCreate([
+                'imdb_id' => $imdbId
+            ],[
+                'title' => $data['Title'],
+                'synopsis' => $data['Plot'],
+                'year' => $data['Year'],
+                'poster' => $data['Poster'],
+                'duration' => intval($data['Runtime']),
+                'imdb_id' => $imdbId,
+                'language' => $data['Language']
+            ]);
+
+            // Todo add movie category
+            if (!empty($data['Genre'])) {
+                echo 'Todo add genre';
+            }
+        }
+        print_r($data); die();
     }
 
     public function store(MovieRequest $request)
@@ -51,7 +122,7 @@ class MovieController extends Controller
 
         $results = array_combine($request->input('celebs'), $request->input('characters'));
         $casts = collect($results)
-            ->map(function($result) {
+            ->map(function ($result) {
                 return ['character_name' => $result];
             });
         $movie->celebs()->sync($casts);
@@ -67,7 +138,7 @@ class MovieController extends Controller
             'celebs'
         ])->get();
 
-        $movie->average_rating = round($movie->reviews()->average('rating'),1);
+        $movie->average_rating = round($movie->reviews()->average('rating'), 1);
 
         $reviews = $movie->reviews()->paginate(3);
 
@@ -107,7 +178,7 @@ class MovieController extends Controller
 
         $results = array_combine($request->input('celebs'), $request->input('characters'));
         $casts = collect($results)
-            ->map(function($result) {
+            ->map(function ($result) {
                 return ['character_name' => $result];
             });
         $movie->celebs()->sync($casts);

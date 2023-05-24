@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', //password
             'is_admin' => true
         ]);
-        \App\Models\Movie::factory(100)->create();
-        \App\Models\Review::factory(1000)->create();
-        \App\Models\Celeb::factory(100)->create();
-        \App\Models\CelebMovie::factory(500)->create();
-        \App\Models\GenreMovie::factory(200)->create();
-        \App\Models\MovieUser::factory(100)->create();
+        // \App\Models\Movie::factory(100)->create();
+        // \App\Models\Review::factory(1000)->create();
+        // \App\Models\Celeb::factory(100)->create();
+        // \App\Models\CelebMovie::factory(500)->create();
+        // \App\Models\GenreMovie::factory(200)->create();
+        // \App\Models\MovieUser::factory(100)->create();
     }
 }
