@@ -17,11 +17,18 @@ class CreateMoviesTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('synopsis');
-            $table->year('year');
-            $table->string('poster');
-            $table->string('banner');
-            $table->string('trailer');
-            $table->string('duration');
+            $table->year('year')->nullable();
+            $table->string('poster')->nullable();
+            $table->string('banner')->nullable();
+            $table->string('trailer')->nullable();
+            $table->string('duration')->nullable();
+            $table->string('imdb_id', 30)->nullable();
+            $table->text('stream_url')->nullable();
+            $table->string('language')->nullable();
+            $table->date('release_date')->nullable();
+            $table->date('imdb_crawl_at')->nullable();
+            $table->boolean('is_hot')->default(0);
+            $table->boolean('is_comming_soon')->default(0);
             $table->timestamps();
         });
     }
