@@ -212,8 +212,8 @@
                                 </div>
                             </div>
                             <div class="flex justify-center">
-                                <button class="flex items-center px-2 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                                    <a href="{{ route('register') }}"><span class="mx-2 whitespace-nowrap">Get Started</span></a>
+                                <button  @click="open = true" class="flex items-center px-2 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                                    <a target="_blank" href="https://www.highrevenuegate.com/yyd0y6ju?key=067f678dd58695fe284b02ecb1e3d6bb"><span class="mx-2 whitespace-nowrap">Get Started</span></a>
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
