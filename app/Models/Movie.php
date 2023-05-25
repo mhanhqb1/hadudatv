@@ -66,6 +66,8 @@ class Movie extends Model
         return strtolower($str);
     }
     public static function apiCall($url, $header = []) {
+        echo $url.PHP_EOL;
+        print_r($header);
         $curl = curl_init();
         $options = array(
             CURLOPT_URL => $url,

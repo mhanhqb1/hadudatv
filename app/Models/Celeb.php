@@ -9,7 +9,7 @@ class Celeb extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'date_of_birth', 'photo'];
+    protected $fillable = ['name', 'date_of_birth', 'photo', 'imdb_id'];
 
     public function movies() {
         return $this->belongsToMany(Movie::class, 'celeb_movie')

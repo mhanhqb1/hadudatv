@@ -6,6 +6,7 @@ use App\Models\Celeb;
 use App\Models\Genre;
 use App\Models\Movie;
 use App\Http\Requests\MovieRequest;
+use App\Models\CelebMovie;
 use App\Models\GenreMovie;
 use App\Models\Review;
 use App\Models\User;
@@ -53,6 +54,7 @@ class MovieController extends Controller
     }
     public function imdbStore($imdbId)
     {
+        ini_set('max_execution_time', 180);
         $data = [];
         $omdbApiKey = env('OMDB_API_KEY');
         $url = "https://www.omdbapi.com/?i=$imdbId&plot=full&apikey=$omdbApiKey";
@@ -97,12 +99,13 @@ class MovieController extends Controller
             // Get review
             $rapidApiKey = env('RAPID_API_KEY');
             $rapidApiHost = 'imdb8.p.rapidapi.com';
+            $apiHeader = [
+                'X-RapidAPI-Host: '.$rapidApiHost,
+                'X-RapidAPI-Key: '.$rapidApiKey
+            ];
             if (!empty($data['imdbRating']) && $data['imdbRating'] != 'N/A') {
                 $url = 'https://'.$rapidApiHost."/title/get-user-reviews?tconst=$imdbId";
-                $data = Movie::apiCall($url, [
-                    'X-RapidAPI-Host: '.$rapidApiHost,
-                    'X-RapidAPI-Key: '.$rapidApiKey
-                ]);
+                $data = Movie::apiCall($url, $apiHeader);
                 if (!empty($data['reviews'])) {
                     $userFactory = new UserFactory();
                     foreach($data['reviews'] as $rv) {
@@ -130,8 +133,39 @@ class MovieController extends Controller
                 }
             }
 
+            // Get top cast
+            $url = 'https://'.$rapidApiHost."/title/get-top-cast?tconst=$imdbId";
+            $data = Movie::apiCall($url, $apiHeader);
+            if (!empty($data)) {
+                foreach($data as $char) {
+                    $charId = str_replace("/name/", '', $char);
+                    $charId = str_replace("/", '', $charId);
+                    $charUrl = 'https://'.$rapidApiHost."/title/get-charname-list?id=$charId&tconst=$imdbId";
+                    $charRes = Movie::apiCall($charUrl, $apiHeader);
+                    if (!empty($charRes[$charId])) {
+                        $celeb = Celeb::where('imdb_id', $charId)->first();
+                        if (empty($celeb)) {
+                            $celeb = Celeb::create([
+                                'imdb_id' => $charId,
+                                'name' => $charRes[$charId]['name']['name'],
+                                'photo' => $charRes[$charId]['name']['image']['url']
+                            ]);
+                        }
+                        CelebMovie::updateOrCreate([
+                            'celeb_id' => $celeb->id,
+                            'movie_id' => $movie->id,
+                        ], [
+                            'celeb_id' => $celeb->id,
+                            'movie_id' => $movie->id,
+                            'character_name' => $charRes[$charId]['charname'][0]['characters'][0]
+                        ]);
+                    }
+                }
+            }
+            return redirect()->route('movies.show', $movie);
         }
-        print_r($data); die();
+        print_r($data);
+        die();
     }
 
     public function store(MovieRequest $request)

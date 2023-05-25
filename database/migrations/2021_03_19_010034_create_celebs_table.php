@@ -16,7 +16,7 @@ class CreateCelebsTable extends Migration
         Schema::create('celebs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('date_of_birth');
+            $table->date('date_of_birth')->nullable();
             $table->string('photo');
             $table->timestamps();
         });

@@ -10,4 +10,6 @@ class CelebMovie extends Model
     use HasFactory;
 
     public $table = "celeb_movie";
+
+    protected $fillable = ['celeb_id', 'movie_id', 'character_name'];
 }
