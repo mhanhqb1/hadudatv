@@ -129,6 +129,20 @@ $appName = env('APP_NAME');
             </div>
         </div>
     </nav>
+    @if (env('APP_ENV') != 'local')
+    <center style="margin: 5px 0">
+        <script type="text/javascript">
+            atOptions = {
+                'key': 'b1f7ca05a60576b5f34006e0bf4c58cf',
+                'format': 'iframe',
+                'height': 60,
+                'width': 468,
+                'params': {}
+            };
+            document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.profitabledisplaynetwork.com/b1f7ca05a60576b5f34006e0bf4c58cf/invoke.js"></scr' + 'ipt>');
+        </script>
+    </center>
+    @endif
 
     @yield('content')
 
