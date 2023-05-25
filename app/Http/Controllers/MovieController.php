@@ -6,6 +6,7 @@ use App\Models\Celeb;
 use App\Models\Genre;
 use App\Models\Movie;
 use App\Http\Requests\MovieRequest;
+use App\Models\GenreMovie;
 
 class MovieController extends Controller
 {
@@ -40,23 +41,7 @@ class MovieController extends Controller
         if (!empty($_GET['s'])) {
             $omdbApiKey = env('OMDB_API_KEY');
             $url = "https://www.omdbapi.com/?s={$_GET['s']}&apikey=$omdbApiKey";
-            $curl = curl_init();
-
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $url,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'GET',
-            ));
-
-            $response = curl_exec($curl);
-
-            curl_close($curl);
-            $result = json_decode($response, true);
+            $result = Movie::apiCall($url);
             $data = !empty($result['Search']) ? $result['Search'] : [];
         }
         return view('movies.imdb_create', [
@@ -68,22 +53,7 @@ class MovieController extends Controller
         $data = [];
         $omdbApiKey = env('OMDB_API_KEY');
         $url = "https://www.omdbapi.com/?i=$imdbId&plot=full&apikey=$omdbApiKey";
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-        ));
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-        $data = json_decode($response, true);
+        $data = Movie::apiCall($url);
         if (!empty($data)) {
             $movie = Movie::updateOrCreate([
                 'imdb_id' => $imdbId
@@ -94,12 +64,28 @@ class MovieController extends Controller
                 'poster' => $data['Poster'],
                 'duration' => intval($data['Runtime']),
                 'imdb_id' => $imdbId,
-                'language' => $data['Language']
+                'language' => $data['Language'],
+                'country' => $data['Country'],
+                'imdb_rating' => !empty($data['imdbRating']) && $data['imdbRating'] != 'N/A' ? $data['imdbRating'] : null
             ]);
 
-            // Todo add movie category
             if (!empty($data['Genre'])) {
-                echo 'Todo add genre';
+                $genres = explode(', ', $data['Genre']);
+                foreach ($genres as $g) {
+                    $genre = Genre::where('name', $g)->first();
+                    if (empty($genre)) {
+                        $genre = Genre::create([
+                            'name' => $g
+                        ]);
+                    }
+                    GenreMovie::updateOrCreate([
+                        'genre_id' => $genre->id,
+                        'movie_id' => $movie->id
+                    ],[
+                        'genre_id' => $genre->id,
+                        'movie_id' => $movie->id
+                    ]);
+                }
             }
         }
         print_r($data); die();
