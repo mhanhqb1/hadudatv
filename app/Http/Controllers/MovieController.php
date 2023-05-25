@@ -103,32 +103,30 @@ class MovieController extends Controller
                 'X-RapidAPI-Host: '.$rapidApiHost,
                 'X-RapidAPI-Key: '.$rapidApiKey
             ];
-            if (!empty($data['imdbRating']) && $data['imdbRating'] != 'N/A') {
-                $url = 'https://'.$rapidApiHost."/title/get-user-reviews?tconst=$imdbId";
-                $data = Movie::apiCall($url, $apiHeader);
-                if (!empty($data['reviews'])) {
-                    $userFactory = new UserFactory();
-                    foreach($data['reviews'] as $rv) {
-                        if (!empty($rv['authorRating'])) {
-                            $imdbUserId = $rv['author']['userId'];
-                            $user = User::where('imdb_id', $imdbUserId)->first();
-                            if (empty($user)) {
-                                $userData = $userFactory->definition();
-                                $userData['is_admin'] = 0;
-                                $userData['imdb_id'] = $imdbUserId;
-                                $user = User::create($userData);
-                            }
-                            Review::updateOrCreate([
-                                'user_id' => $user->id,
-                                'movie_id' => $movie->id
-                            ], [
-                                'user_id' => $user->id,
-                                'movie_id' => $movie->id,
-                                'title' => $rv['reviewTitle'],
-                                'rating' => $rv['authorRating'],
-                                'content' => $rv['reviewText'],
-                            ]);
+            $url = 'https://'.$rapidApiHost."/title/get-user-reviews?tconst=$imdbId";
+            $data = Movie::apiCall($url, $apiHeader);
+            if (!empty($data['reviews'])) {
+                $userFactory = new UserFactory();
+                foreach($data['reviews'] as $rv) {
+                    if (!empty($rv['authorRating'])) {
+                        $imdbUserId = $rv['author']['userId'];
+                        $user = User::where('imdb_id', $imdbUserId)->first();
+                        if (empty($user)) {
+                            $userData = $userFactory->definition();
+                            $userData['is_admin'] = 0;
+                            $userData['imdb_id'] = $imdbUserId;
+                            $user = User::create($userData);
                         }
+                        Review::updateOrCreate([
+                            'user_id' => $user->id,
+                            'movie_id' => $movie->id
+                        ], [
+                            'user_id' => $user->id,
+                            'movie_id' => $movie->id,
+                            'title' => $rv['reviewTitle'],
+                            'rating' => $rv['authorRating'],
+                            'content' => $rv['reviewText'],
+                        ]);
                     }
                 }
             }
