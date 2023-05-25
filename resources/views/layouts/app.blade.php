@@ -184,6 +184,7 @@ $appName = env('APP_NAME');
         </div>
     </footer>
     @yield('scripts')
+    <script async="async" data-cfasync="false" src="//ophoacit.com/1?z=5982523"></script>
 </body>
 
 </html>
