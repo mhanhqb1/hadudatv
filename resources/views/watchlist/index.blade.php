@@ -77,7 +77,7 @@
                 <div class="grid gap-12 mt-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                     @foreach($watchlist as $movie)
                         <div>
-                            <a href="{{ route('movies.show', $movie->id) }}">
+                            <a href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}">
                                 <img class="object-cover w-full h-30" src="{{ $movie->poster }}" alt="movie_poster">
                             </a>
                             <div class="flex justify-between">

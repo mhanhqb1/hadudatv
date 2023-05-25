@@ -23,7 +23,7 @@
                     @foreach($results as $result)
                         @if($type === 'movies')
                             <div>
-                                <a href="{{ route('movies.show', $result->id) }}">
+                                <a href="{{ route('movies.show', ['id'=>$result->id, 'slug' => $result->slug]) }}">
                                     <img class="object-cover w-60 h-full" src="{{ $result->poster }}" alt="poster">
                                 </a>
                                 <div class="flex justify-between mt-1">

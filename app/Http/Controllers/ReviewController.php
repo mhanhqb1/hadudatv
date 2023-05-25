@@ -11,7 +11,7 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        $reviews = Review::with('movie:id,title,poster,trailer')
+        $reviews = Review::with('movie:id,title,poster,trailer,slug')
             ->orderBy('id', 'DESC')
             ->paginate(20);
 
@@ -22,7 +22,7 @@ class ReviewController extends Controller
 
     public function show(Movie $movie, Review $review)
     {
-        $review->with('movie:id,title,poster,trailer')->get();
+        $review->with('movie:id,title,poster,trailer,slug')->get();
 
         return view('reviews.show', [
             'movie' => $movie,

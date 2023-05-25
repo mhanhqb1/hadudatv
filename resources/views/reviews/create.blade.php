@@ -9,7 +9,7 @@
                 <div class="flex flex-col w-3/4 md:items-start md:text-left mr-10 mb-16 md:mb-0 items-center text-center bg-white p-12">
                     <h1 class="font-medium text-gray-500 text-4xl mb-6">Add a review of
                         <span class="text-blue-500">
-                            <a href="{{ route('movies.show', $movie) }}">{{ $movie->title }}</a>
+                            <a href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}">{{ $movie->title }}</a>
                         </span>
                     </h1>
                     @if ($errors->any())
@@ -49,7 +49,7 @@
                                 <textarea name="content" cols="60" rows="10" class="outline-none border border-4 border-gray-200 text-gray-700 rounded rounded-md p-4 text-md font-light">{{ old('content') }}</textarea>
                                 <div class="flex flex-row mt-6 align-middle items-center">
                                     <button type="submit" class="flex w-max px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Add</button>
-                                    <a class="text-gray-400 hover:text-gray-600 px-4 py-2" href="{{ route('movies.show', $movie) }}">Cancel</a>
+                                    <a class="text-gray-400 hover:text-gray-600 px-4 py-2" href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}">Cancel</a>
                                 </div>
                             </div>
                         </form>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="w-1/2 md:w-1/4 flex flex-col items-end mb-16 md:mb-0">
                     <div class="flex-col pb-6">
-                        <a href="{{ route('movies.show', $movie) }}">
+                        <a href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}">
                             <img class="flex w-80 border rounded-sm mb-4 align-middle justify-end" src="{{ $movie->poster }}" alt="{{ $movie->title }}">
                         </a>
                     </div>

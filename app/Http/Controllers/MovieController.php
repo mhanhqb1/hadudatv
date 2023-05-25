@@ -160,7 +160,7 @@ class MovieController extends Controller
                     }
                 }
             }
-            return redirect()->route('movies.show', $movie);
+            return redirect()->route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]);
         }
         print_r($data);
         die();
@@ -192,8 +192,9 @@ class MovieController extends Controller
             ->with(['message' => 'Success! Movie has been added.']);
     }
 
-    public function show(Movie $movie)
+    public function show($slug, $id)
     {
+        $movie = Movie::find($id);
         $movie->with([
             'genres',
             'celebs'
@@ -244,7 +245,7 @@ class MovieController extends Controller
             });
         $movie->celebs()->sync($casts);
 
-        return redirect()->route('movies.show', $movie)
+        return redirect()->route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id])
             ->with(['message' => 'Success! Movie has been updated.']);
     }
 

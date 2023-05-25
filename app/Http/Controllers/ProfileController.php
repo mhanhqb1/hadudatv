@@ -22,13 +22,13 @@ class ProfileController extends Controller
 
         $reviews = $user->reviews()
             ->select('id', 'user_id','movie_id', 'title', 'rating', 'created_at')
-            ->with(['movie:id,title,poster'])
+            ->with(['movie:id,title,poster,slug'])
             ->latest()
             ->take(4)
             ->get();
 
         $watchlist = $user->movies()
-                          ->select('id', 'title', 'poster')
+                          ->select('id', 'title', 'poster', 'slug')
                           ->take(5)
                           ->get();
 
@@ -43,7 +43,7 @@ class ProfileController extends Controller
     {
         $reviews = $user->reviews()
             ->select('id', 'user_id','movie_id', 'title', 'rating', 'created_at')
-            ->with(['movie:id,title,poster'])
+            ->with(['movie:id,title,poster,slug'])
             ->latest()
             ->paginate(8);
 

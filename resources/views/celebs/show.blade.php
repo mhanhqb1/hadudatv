@@ -18,8 +18,8 @@
                     @foreach ($titles as $title)
                         <div class="flex w-full justify-between">
                             <div class="flex">
-                                <a href="{{ route('movies.show', $title) }}"><img class="h-16 border rounded-sm my-2" src="{{ $title->poster }}" alt="{{ $title->title }}"></a>
-                                <span class="p-6 font-medium"> <a href="{{ route('movies.show', $title) }}">{{ $title->title }}</a> </span>
+                                <a href="{{ route('movies.show', ['slug' => $title->slug, 'id' => $title->id]) }}"><img class="h-16 border rounded-sm my-2" src="{{ $title->poster }}" alt="{{ $title->title }}"></a>
+                                <span class="p-6 font-medium"> <a href="{{ route('movies.show', ['slug' => $title->slug, 'id' => $title->id]) }}">{{ $title->title }}</a> </span>
                             </div>
                             <div class="flex">
                                 <span class="p-6 font-light">

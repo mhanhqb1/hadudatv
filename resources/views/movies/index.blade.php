@@ -27,7 +27,7 @@
                     @foreach($movies as $movie)
                         <div>
                             <div class="flex flex-col">
-                                <a href="{{ route('movies.show', $movie) }}">
+                                <a href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}">
                                     <img class="object-cover w-60 h-96" src="{{ $movie->poster }}" alt="{{ $movie->title }}">
                                 </a>
                                 <div class="flex justify-between my-6">

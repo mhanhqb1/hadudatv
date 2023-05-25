@@ -80,5 +80,5 @@ Route::group(['middleware'=> 'auth'], function()
 
 /** Celebs, Movies, Reviews | Show */
 Route::get('/celebs/{celeb}', [CelebController::class, 'show'])->name('celebs.show');
-Route::get('/movies/{movie}', [MovieController::class, 'show'])->name('movies.show');
+Route::get('/movies/{slug}-{id}.html', [MovieController::class, 'show'])->name('movies.show');
 Route::get('/movies/{movie}/reviews/{review}', [ReviewController::class, 'show'])->name('reviews.show');

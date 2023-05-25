@@ -15,7 +15,7 @@ class SearchController extends Controller
 
         if ($type === 'movies') {
             $results = Movie::query()
-                ->select('id', 'title', 'poster')
+                ->select('id', 'title', 'poster', 'slug')
                 ->where('title', 'LIKE', "%{$request->query('search')}%")
                 ->orderBy('title')
                 ->paginate(10);

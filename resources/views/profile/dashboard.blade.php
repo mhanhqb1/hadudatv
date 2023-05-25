@@ -83,7 +83,7 @@
                     @foreach($reviews as $review)
                         <div class="flex">
                             <div class="flex flex-col">
-                                <a href="{{ route('movies.show', $review->movie->id) }}">
+                                <a href="{{ route('movies.show', ['slug' => $review->movie->slug, 'id' => $review->movie->id]) }}">
                                     <img class="object-cover object-center flex justify-start w-24 h-32" src={{$review->movie->poster}} alt="movie_poster"/>
                                 </a>
                             </div>
@@ -129,7 +129,7 @@
                 <div class="flex items-baseline">
                     <div class="grid gap-12 mt-14 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
                         @foreach($watchlist as $item)
-                            <a href="{{route('movies.show', $item->id)}}">
+                            <a href="{{route('movies.show', ['slug' => $item->slug, 'id' => $item->id])}}">
                                 <div class="w-full max-w-xs text-center">
                                     <img class="object-cover w-40 h-60" src={{$item->poster}} alt="movie_poster"/>
                                     <div class="mt-2">

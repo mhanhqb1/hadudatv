@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="w-full bg-bottom bg-cover shadow-inner shadow-lg" style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(27, 28, 32, 1)), url('{{ $random->banner }}'); height: 90vh;">
+    <div class="w-full bg-bottom bg-cover shadow-inner shadow-lg" style="background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(27, 28, 32, 1)), url('{{ !empty($random->banner) ? $random->banner : $random->poster }}'); height: 90vh;">
         <div class="container px-6 py-3 mx-auto">
             <section class="text-gray-600 body-font">
                 {{--     Movie Summary Section       --}}
@@ -18,7 +18,7 @@
                                 <span class="whitespace-nowrap font-normal"> {{ $random->average_rating }} / 10 </span>
                             </div>
                         </div>
-                        <a href="{{ route('movies.show', $random) }}"><h1 class="title-font sm:text-6xl text-5xl mb-4 font-medium text-white"> {{ $random->title }}  </h1></a>
+                        <a href="{{ route('movies.show', ['slug' => $random->slug, 'id' => $random->id]) }}"><h1 class="title-font sm:text-6xl text-5xl mb-4 font-medium text-white"> {{ $random->title }}  </h1></a>
                         <div class="flex justify-center mb-12">
                             <div class="flex items-center py-2 font-medium tracking-wide">
                                 <span class="text-gray-300 mx-2 whitespace-nowrap"> {{ $random->duration }} </span>
@@ -77,7 +77,7 @@
                 <div class="grid gap-20 mt-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                     @foreach($movies as $movie)
                         <div>
-                            <a href="{{ route('movies.show', $movie) }}">
+                            <a href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}">
                                 <img class="object-cover w-60 h-full" src="{{ $movie->poster }}" alt="{{ $movie->poster }}">
                             </a>
                             <div class="flex justify-between">

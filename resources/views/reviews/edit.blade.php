@@ -9,7 +9,7 @@
                 <div class="flex flex-col w-3/4 md:items-start md:text-left mr-10 mb-16 md:mb-0 items-center text-center bg-white p-12">
                     <h1 class="font-medium text-gray-500 text-4xl mb-6">Update your review of
                         <span class="text-blue-500">
-                            <a href="{{ route('movies.show', $movie) }}" target="_blank">{{ $movie->title }}</a>
+                            <a href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}" target="_blank">{{ $movie->title }}</a>
                         </span>
                     </h1>
                     @if ($errors->any())
@@ -58,7 +58,7 @@
                 </div>
                 <div class="w-1/2 md:w-1/4 flex flex-col items-end mb-16 md:mb-0">
                     <div class="flex-col pb-6">
-                        <a href="{{ route('movies.show', $movie) }}" target="_blank">
+                        <a href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}" target="_blank">
                             <img class="flex w-80 border rounded-sm mb-4 align-middle justify-end" src="{{ $movie->poster }}" alt="{{ $movie->title }}">
                         </a>
                     </div>

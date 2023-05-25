@@ -14,7 +14,7 @@
                     @endif
                     <h1 class="font-medium text-gray-500 text-4xl">A review of
                         <span class="text-blue-500">
-                            <a href="{{ route('movies.show', $movie) }}">{{ $movie->title }}</a>
+                            <a href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}">{{ $movie->title }}</a>
                         </span>
                     </h1>
                     <a href="{{ route('profile.reviews', $review->user->id) }}">
@@ -69,7 +69,7 @@
                     @endif
                 </div>
                 <div class="flex flex-col w-1/2 md:w-1/4 items-end mb-16 md:mb-0">
-                    <a href="{{ route('movies.show', $movie) }}">
+                    <a href="{{ route('movies.show', ['slug' => $movie->slug, 'id' => $movie->id]) }}">
                         <img class="flex w-full border rounded-sm mb-4 align-middle items-center" src="{{ $movie->poster }}" alt="{{ $movie->title }}">
                     </a>
                     <div x-data="{ open: false }" class="flex lg:flex-row flex-col justify-center">
