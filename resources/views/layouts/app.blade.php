@@ -1,3 +1,6 @@
+<?php
+$appName = env('APP_NAME');
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,7 +19,7 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
-    <title>@yield('title', 'MovieDeck | Best Movie Reviews')</title>
+    <title>@yield('title', $appName.' | Best Movie Reviews')</title>
 </head>
 <body class="bg-gray-200">
     <nav class="bg-white shadow-lg">
@@ -29,7 +32,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
                         </svg>
-                        <span class="text-lg pl-2 font-bold uppercase">Moviedeck</span>
+                        <span class="text-lg pl-2 font-bold uppercase">{{ $appName }}</span>
                     </div>
                 </a>
 
@@ -120,7 +123,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                           d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/>
                                 </svg>
-                                <span class="text-md pl-2 font-bold uppercase">Moviedeck</span>
+                                <span class="text-md pl-2 font-bold uppercase">{{ $appName }}</span>
                             </div>
                         </a>
                     </div>
