@@ -24,10 +24,22 @@ $appName = env('APP_NAME');
     <style>
         @media only screen and (max-width: 768px) {
             .mobile-menu-open {
-               display: none;
+                display: none;
             }
         }
     </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-906H8DTNSD"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-906H8DTNSD');
+    </script>
 </head>
 
 <body class="bg-gray-200">
