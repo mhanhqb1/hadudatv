@@ -28,6 +28,7 @@ $appName = env('APP_NAME');
             }
         }
     </style>
+    @if (env('APP_ENV') != 'local')
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-906H8DTNSD"></script>
     <script>
@@ -40,6 +41,7 @@ $appName = env('APP_NAME');
 
         gtag('config', 'G-906H8DTNSD');
     </script>
+    @endif
 </head>
 
 <body class="bg-gray-200">
@@ -196,7 +198,9 @@ $appName = env('APP_NAME');
         </div>
     </footer>
     @yield('scripts')
+    @if (env('APP_ENV') != 'local')
     <script async="async" data-cfasync="false" src="//ophoacit.com/1?z=5982523"></script>
+    @endif
 </body>
 
 </html>
