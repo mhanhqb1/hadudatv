@@ -1,5 +1,5 @@
 <?php
-$adsUrl = '';
+$adsUrl = 'https://www.highrevenuegate.com/yyd0y6ju?key=067f678dd58695fe284b02ecb1e3d6bb';
 ?>
 <style>
 .modal-content {
